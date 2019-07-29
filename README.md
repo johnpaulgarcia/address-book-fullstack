@@ -1,125 +1,68 @@
-# Project Summary - Fullstack Address Book
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-For this project you'll be crafting an Address Book application. You'll be
-responsible for the user interface and its functionality, along with
-implementing a backend API to persist the data to a database and authorize
-users.
+## Available Scripts
 
-The set of technologies you'll be required to use are as follows
+In the project directory, you can run:
 
-- Web application and UI - [React.js](https://reactjs.org/)
-- Backend Server / API - [Node.js](https://nodejs.org) using the
-  [express](https://expressjs.com/) server framework
-- Database - [PostgreSQL](https://www.postgresql.org/)
+### `npm start`
 
-This is a comprehensive test of all of you skills as a software developer,
-you'll be expected to implement each specified feature to the best of your
-abilities. Along with working features, attention will be paid to how you
-organize your application code.
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Getting Started
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-`Fork` and `clone` this project.
+### `npm test`
 
-There is no starter code for this project. Use the appropriate tools to
-initialize a project and track any dependencies required to run your project.
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Design Constraints
+### `npm run build`
 
-1. You should create a responsive UI for three device categories **mobile**,
-   **tablet** and **desktop**. There are no exact device requirement, but your
-   design should be usable on those three device classes with their respective
-   screen sizes.
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-   > May be a good idea to review responsive design?
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-2. The look and feel of the application is up to you. Feel free to use existing
-   UI libraries, or design your own interface.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-   > Working implementations are worth more that a pretty looking interface.
+### `npm run eject`
 
-3. Your backend API should require authentication to access the address book
-   functionality. You should implement your authorization and sign-in using
-   [JSON Web Tokens](https://jwt.io)
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-## Requirements
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### Login / Registration Page:
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-- When a user first navigates to your application they should be greeted with a
-  Login / Registration page.
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-  - **New Users** - Should have the ability to register to use your Address Book
-    application
+## Learn More
 
-  - **Existing Users** - Should be able to login to the application with a
-    `username` and `password` combination.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-  - The login form should have `username` and `password` as required fields.
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-  - Form field errors should be displayed to the user with a useful message.
+### Code Splitting
 
-  - If login fails, a message notifying the user of the failure should be shown.
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-- When registered or authenticated the user should then be directed to the main
-  Address Book page.
+### Analyzing the Bundle Size
 
-> **Bonus Feature**: See if you can implement auto-login if a user still has a
-> valid token from their last login. This would require storage of the token in
-> the browser. Research browser local storage if you're implementing this
-> feature.
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Address Book Page:
+### Making a Progressive Web App
 
-- This is the where a user can complete the various actions required for a
-  useful Address Book application.
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-- **UI Requirements**:
-  - **A list of saved user contacts should be displayed**:
-    - This list should display a consolidated view of the contact information
-      `first_name`, `last_name` and `phonenumber`.
-    - The list should be sortable by `last_name`, the sorting should utilize the
-      database.
-    - The list should be searchable by `first_name` and `last_name`.
-    - When a contact is selected from this list a detailed contact view of some
-      kind should be shown. The detailed view should show all editable
-      information for the selected contact.
-  - **A detailed contact view**:
-    - Should display all editable information about contact.
-    - Have a way to edit and then save selected contact information.
-  - **A way to CREATE new contacts and save them to the user's address book.**
-    - Form should have appropriate validation and error messages.
-  - **A way to DELETE contacts from the address book.**
-    - A confirmation should be used before deleting a contact.
-  - **A way for a user to logout of the application**
-    - A logout should remove their authorization and redirect them to the login
-      page.
+### Advanced Configuration
 
-> **Bonus Feature**: Create a way to add contacts to groups, and then a way to
-> toggle the display of contacts in groups or just as a list.
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-## Database Design
+### Deployment
 
-We won't give you too many clues here, as it's part of the exercise but remember
-to think about how the various entities relate to one another and how you would
-query them. This application will most likely require the following entities.
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-- User - you decide the columns
-- Address Book - you decide the columns
-- Contact
-  - first_name - \*required
-  - last_name
-  - home_phone
-  - mobile_phone
-  - work_phone
-  - email
-  - city
-  - state_or_province
-  - postal_code
-  - country
-- Group - \*only if implementing the bonus feature
+### `npm run build` fails to minify
 
-# Finished
-
-Submit a link to your fork of this repository to the Google Classroom assignment
-related to this project.
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
