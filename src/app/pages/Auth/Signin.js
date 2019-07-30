@@ -35,7 +35,7 @@ class Signin extends React.Component {
 			let {username,password} = this.state;
 			if(username && password){
 				let data = await signup(this.state.username,this.state.password);
-				data.userid && localStorage.setItem('token',data.token);
+				data.user && localStorage.setItem('token',data.token);
 				let token = localStorage.getItem('token');
 		    	if(token)this.props.history.push('/');
 			}
