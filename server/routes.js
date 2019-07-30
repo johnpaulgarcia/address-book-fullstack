@@ -5,7 +5,7 @@ router.route('/').get((req,res,next)=>{
 	res.send('API RUNNING');
 });
 
-router.route('/register').post(UserController.register);
-router.route('/login').post(UserController.login);
+router.route('/signup').post(UserController.register);
+router.route('/signin').post(UserController.login);
 
 module.exports = {router,srouter}

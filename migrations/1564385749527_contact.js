@@ -2,6 +2,7 @@ exports.shorthands = undefined;
 
 exports.up = (pgm) => {
 	pgm.createTable('contact',{
+		contactid: {type: 'serial',primaryKey: true},
 		first_name: {type: 'text',notNull: true},
 		last_name: {type: 'text'},
 		home_phone: {type: 'text'},

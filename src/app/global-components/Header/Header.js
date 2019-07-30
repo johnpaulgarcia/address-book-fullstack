@@ -4,7 +4,19 @@ import {withStyles} from '@material-ui/styles';
 import {Grid,Typography,Button} from '@material-ui/core';
 import {PersonAdd,ExitToApp} from '@material-ui/icons';
 class Header extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			token: ''
+		}
+	}
+	logout = () => {
+		localStorage.removeItem('token');
+		this.props.history.push('/signin');
+	}
+
 	render(){
+		let token = localStorage.getItem('token');
 		return(
 				<Grid
 				 container
@@ -20,16 +32,16 @@ class Header extends React.Component {
 						</Typography>
 					</Grid>
 
-					<Grid item direction="row">
+					{token && <Grid item direction="row">
 						<Button style={styles.item}>
 							<PersonAdd style={{color: '#fff'}}/>
 						</Button>
 
-						<Button style={styles.item}>
+						<Button onClick={()=>this.logout()} style={styles.item}>
 							<ExitToApp style={{color: '#fff'}}/>
 						</Button>
 
-					</Grid>
+					</Grid>}
 					
 				</Grid>
 			)

@@ -1,8 +1,8 @@
 const styles = {
 	header: {
-		width: '50vw',
+		width: 'inherit',
 		height: '5vh',
-		background: '#3498db',
+		background: '#2c3e50',
 		padding: '0 10px',
 	},
 
