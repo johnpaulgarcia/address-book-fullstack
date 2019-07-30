@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles';
 import {withStyles} from '@material-ui/styles';
-import {Grid,Card,Typography,Table,TableHead,TableRow,TableCell,Hidden} from '@material-ui/core';
+import {Grid,Card,Typography,Table,TableBody,TableHead,TableRow,TableCell,Hidden} from '@material-ui/core';
 import {List,Information} from './components';
 class Home extends React.Component{
 	componentDidMount(){
@@ -37,6 +37,13 @@ class Home extends React.Component{
 												<Hidden mdDown><TableCell>Country</TableCell></Hidden>
 										</TableRow>
 									</TableHead>
+
+									<TableBody>
+												<TableRow>
+													<TableCell>John</TableCell>
+													<TableCell>Garcia</TableCell>
+												</TableRow>
+										</TableBody>
 								</Table>
 							
 						</Card>
