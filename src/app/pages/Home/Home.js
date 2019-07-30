@@ -18,7 +18,7 @@ class Home extends React.Component{
 				 style={{width:'inherit',height: '90vh'}}
 				>
 
-					<Grid item lg={10} xs={12} sm={10} md={10}>
+					<Grid item lg={11} xs={12} sm={11} md={11}>
 						<Card style={{height: '80vh'}}>
 							
 								<Table>
@@ -29,6 +29,12 @@ class Home extends React.Component{
 												<TableCell>Last Name</TableCell>
 												<Hidden xsDown><TableCell>Email</TableCell></Hidden>
 												<Hidden xsDown><TableCell>Work Phone</TableCell></Hidden>
+												<Hidden smDown><TableCell>Mobile Phone</TableCell></Hidden>
+												<Hidden mdDown><TableCell>Home Phone</TableCell></Hidden>
+												<Hidden mdDown><TableCell>City</TableCell></Hidden>
+												<Hidden mdDown><TableCell>State/Province</TableCell></Hidden>
+												<Hidden mdDown><TableCell>Postal Code</TableCell></Hidden>
+												<Hidden mdDown><TableCell>Country</TableCell></Hidden>
 										</TableRow>
 									</TableHead>
 								</Table>
