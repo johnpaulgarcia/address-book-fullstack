@@ -1,7 +1,7 @@
 const styles = {
 	form: {
 		width: '100%',
-		height: '100vh',
+		height: '80vh',
 		display: 'flex',
 		padding: '0px 10px',
 		alignItems: 'center',

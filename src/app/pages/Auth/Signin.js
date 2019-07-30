@@ -17,6 +17,10 @@ class Signin extends React.Component {
 		}
 	}
 
+		componentDidMount(){
+			let token = localStorage.getItem('token');
+		    if(token)this.props.history.push('/');
+		}
 		handleInput = value => e => {
 			e.persist();
 			this.setState(()=>{
