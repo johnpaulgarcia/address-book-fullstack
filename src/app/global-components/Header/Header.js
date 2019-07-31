@@ -3,7 +3,7 @@ import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
 import {Grid,Typography,Button} from '@material-ui/core';
 import {PersonAdd,ExitToApp} from '@material-ui/icons';
-import {logout} from '../../actions';
+import {logout,create} from '../../actions';
 import {connect} from 'react-redux';
 class Header extends React.Component {
 	constructor(props){
@@ -15,6 +15,10 @@ class Header extends React.Component {
 
 	logout = () => {
 		this.props.dispatch(logout());
+	}
+
+	createModal = () => {
+		this.props.dispatch(create(true));
 	}
 
 	render(){
@@ -35,7 +39,7 @@ class Header extends React.Component {
 					</Grid>
 
 					{user && <Grid item direction="row">
-						<Button style={styles.item}>
+						<Button onClick={()=>this.createModal()} style={styles.item}>
 							<PersonAdd style={{color: '#fff'}}/>
 						</Button>
 

@@ -6,7 +6,7 @@ exports.register = (req,res,next) => {
 	 let db = req.app.get('db');
 	 argon2.hash(password)
 	 	.then((hash)=>{
-	 		db.users.save({user,password:hash},{fields: ['user']})
+	 		db.users.save({user,password:hash},{fields: ['userid','user']})
 	 		.then(user=>{
 	 			const token = jwt.sign({'userId':user.id},secret);
 	 			res.json({...user,token})

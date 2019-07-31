@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {REGISTER,LOGIN} from '../api';
-import {USER_AUTH,AUTH_FAILED} from '../constants';
+import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT} from '../api';
+import {USER_AUTH,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
 			return await axios.post(REGISTER,{user,password},{timeout: 1000})
@@ -41,10 +41,44 @@ export const login = (user,password) => {
 	}
 }
 
+export const addContact = (data,token) => {
+	return async function(dispatch){
+		return await axios.post(ADD_CONTACT,{...data},{headers: {"Authorization": `Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				console.log(response.data);
+			})
+			.catch(err=>{
+				console.log(err.message);
+			})
+	}
+}
+
+export const getContact = (userid,token) => {
+	return async function(dispatch){
+		return await axios.get(`${GET_CONTACT}/${userid}`,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch({
+					type: CONTACT_UPDATED,
+					contact: response.data
+				})
+			})
+			.catch(err=>{
+				console.log(err.message);
+			})
+	}
+}
+
 export const logout = () => {
 	return {
 		type: USER_AUTH,
 		user: null
+	}
+}
+
+export const create = (open) => {
+	return {
+		type: CREATE_MODAL,
+		open
 	}
 }
 
@@ -54,3 +88,4 @@ export const wipeError = () => {
 		error: null
 	}
 }
+

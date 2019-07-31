@@ -4,9 +4,12 @@ module.exports = (state=defaultState,action) => {
 	switch(action.type){
 		case constants.CONTACT_UPDATED: {
 			return {
-				contacts: action.contacts
+				contact: action.contact
 			}
 		}
+
+		break;
+
 		default:
 			return state
 	}

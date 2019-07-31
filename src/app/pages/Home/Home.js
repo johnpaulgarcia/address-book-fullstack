@@ -9,7 +9,6 @@ class Home extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			openAddContact: false
 		}
 	}
 	render(){
@@ -29,7 +28,7 @@ class Home extends React.Component{
 						<Card style={{height: '80vh'}}>
 							<ContactTable />
 						</Card>
-						<AddContact open={this.state.openAddContact}/>
+						<AddContact/>
 					</Grid>
 
 				</Grid>
@@ -39,7 +38,7 @@ class Home extends React.Component{
 
 const mapStateToProps = (state) => {
 	return {
-		user: state.user.user
+		user: state.user.user,
 	}
 }
 export default connect(mapStateToProps)(Home);

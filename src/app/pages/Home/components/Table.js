@@ -1,6 +1,11 @@
 import React from 'react';
 import {Table,TableBody,TableHead,TableRow,TableCell,Hidden} from '@material-ui/core';
-class ContactTable extends React.Component{
+import {connect} from 'react-redux';
+import {getContact} from '../../../actions';
+class ContactTable extends React.Component<Props,State>{
+	componentDidMount(){
+		this.props.dispatch(getContact(this.props.user.userid,this.props.user.token));
+	}
 	render(){
 		return(
 				<Table>
@@ -21,9 +26,13 @@ class ContactTable extends React.Component{
 									</TableHead>
 
 									<TableBody>
-												<TableRow>
-													<TableCell>John</TableCell>
-													<TableCell>Garcia</TableCell>
+												{
+													this.props.contact ? this.props.contact.contact.map(key=>{
+														return(
+
+																<TableRow>
+													<TableCell>{key.firstname}</TableCell>
+													<TableCell>{key.lastname}</TableCell>
 													<Hidden xsDown><TableCell>john.garcia@boom.camp</TableCell></Hidden>
 													<Hidden xsDown><TableCell>+1 484-5555</TableCell></Hidden>
 													<Hidden smDown><TableCell>+1 585-4545</TableCell></Hidden>
@@ -33,10 +42,22 @@ class ContactTable extends React.Component{
 													<Hidden mdDown><TableCell>4713</TableCell></Hidden>
 													<Hidden mdDown><TableCell>PH</TableCell></Hidden>
 												</TableRow>
+
+															)
+													}) : <div />
+
+												}
 										</TableBody>
 								</Table>
 			)
 	}
 }
 
-export default ContactTable;
+const mapStateToProps = (state) => {
+	return {
+		contact: state.contact.contact,
+		user: state.user.user
+	}
+}
+
+export default connect(mapStateToProps)(ContactTable);

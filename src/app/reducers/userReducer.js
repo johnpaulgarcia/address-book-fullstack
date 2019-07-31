@@ -14,6 +14,7 @@ module.exports = (state=defaultState,action) => {
 				error: action.error
 			}
 		}
+
 		default:
 			return state
 	}
