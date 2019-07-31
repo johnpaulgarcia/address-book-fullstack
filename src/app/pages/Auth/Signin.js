@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './styles';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import {TextField,Grid,Button,Typography,Card} from '@material-ui/core';
 import {withStyles} from '@material-ui/styles';
-import {signup,login} from '../../actions';
+import {signup,login,wipeError} from '../../actions';
+import {connect} from 'react-redux';
 class Signin extends React.Component {
 	constructor(props){
 		super(props);
@@ -17,10 +18,17 @@ class Signin extends React.Component {
 		}
 	}
 
-		componentDidMount(){
-			let token = localStorage.getItem('token');
-		    if(token)this.props.history.push('/');
+		componentDidUpdate(){
+			let {autherror} = this.props;
+			if(autherror && autherror !== this.state.message){
+				this.setState(()=>{
+					return {
+						message: autherror
+					}
+				})
+			}
 		}
+
 		handleInput = value => e => {
 			e.persist();
 			this.setState(()=>{
@@ -30,35 +38,21 @@ class Signin extends React.Component {
 				}
 			})
 		}
-
-		register = async () => {
+		register = () => {
 			let {username,password} = this.state;
-			if(username && password){
-				let data = await signup(this.state.username,this.state.password);
-				data.user && localStorage.setItem('token',data.token);
-				let token = localStorage.getItem('token');
-		    	if(token)this.props.history.push('/');
-			}
+			this.props.dispatch(signup(username,password));
 		}
 
-		submit = async (e) => {
+		submit = (e) => {
 			e.preventDefault();
 			let {username,password} = this.state;
-			if(username && password){
-				let data = await login(this.state.username,this.state.password);
-				data.userid && localStorage.setItem('token',data.token);
-				let token = localStorage.getItem('token');
-		    	if(token)this.props.history.push('/')
-		    	if(data===403)this.setState({message: "Please review your login information."})
-		    	if(data===500)this.setState({message: "Internal Server Error"});
-		    	setTimeout(()=>{
-		    		this.setState({message: ''})
-		    	},1500)
-			}
-			
+			this.props.dispatch(login(username,password))	
 		}
 	render(){
-	        let {usernameErr,passwordErr} = this.state;
+	        let {usernameErr,passwordErr,message} = this.state;
+	         if(this.props.user){
+	        	return <Redirect to="/"/>
+	         }
 			return(
 					<Grid
 					  container
@@ -115,4 +109,11 @@ class Signin extends React.Component {
 		}
 }
 
-export default withStyles(styles)(Signin);
+const mapStateToProps = (state) => {
+	return {
+		user: state.user.user,
+		autherror: state.user.error
+	}
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Signin));

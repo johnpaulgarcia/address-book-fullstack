@@ -3,20 +3,22 @@ import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
 import {Grid,Typography,Button} from '@material-ui/core';
 import {PersonAdd,ExitToApp} from '@material-ui/icons';
+import {logout} from '../../actions';
+import {connect} from 'react-redux';
 class Header extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			token: ''
+			user: []
 		}
 	}
+
 	logout = () => {
-		localStorage.removeItem('token');
-		this.props.history.push('/signin');
+		this.props.dispatch(logout());
 	}
 
 	render(){
-		let token = localStorage.getItem('token');
+		let {user} = this.props;
 		return(
 				<Grid
 				 container
@@ -32,7 +34,7 @@ class Header extends React.Component {
 						</Typography>
 					</Grid>
 
-					{token && <Grid item direction="row">
+					{user && <Grid item direction="row">
 						<Button style={styles.item}>
 							<PersonAdd style={{color: '#fff'}}/>
 						</Button>
@@ -47,5 +49,9 @@ class Header extends React.Component {
 			)
 	}
 }
-
-export default withStyles(styles)(Header);
+const mapStateToProps = (state) => {
+	return {
+		user: state.user.user
+	}
+}
+export default connect(mapStateToProps)(withStyles(styles)(Header));

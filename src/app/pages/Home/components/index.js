@@ -1,3 +1,3 @@
-import List from './List';
-import Information from './Information';
-export {List,Information}
+import ContactTable from './Table';
+import AddContact from './AddContact';
+export {ContactTable,AddContact}
