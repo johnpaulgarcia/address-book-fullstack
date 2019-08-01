@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal,Grid,Card,Button,Typography,TextField,Paper,Container} from '@material-ui/core';
-import {create,addContact} from '../../../actions';
+import {create,addContact,updateContact,deleteContact} from '../../../actions';
 import {connect} from 'react-redux';
 import styles from './styles';
 class AddContact extends React.Component{
@@ -74,17 +74,32 @@ class AddContact extends React.Component{
 			city,
 			userid: this.props.user.userid
 		}
-
+		let token = this.props.user.token;
 		if(this.props.edit){
 			data.contactid = this.props.payload.contactid;
-			console.log(data);
+			let res = await this.props.dispatch(updateContact(data,token));
+			if(res==="success"){
+				this.setState(this.originalState)
+				this.createModal();
+			}
 		}
 
 		else {
-			let res = await this.props.dispatch(addContact(data,this.props.user.token));
+			let res = await this.props.dispatch(addContact(data,token));
 			if(res==="success"){
 				this.setState(this.originalState)
 			}
+		}
+	}
+
+
+	delete = async () => {
+		let contactid = this.props.payload.contactid;
+		let token = this.props.user.token;
+		console.log(token);
+		let res = await this.props.dispatch(deleteContact(contactid,token));
+		if(res==="success"){
+			this.createModal();
 		}
 	}
 
@@ -230,7 +245,7 @@ class AddContact extends React.Component{
 						         	</Grid>
 								{this.props.edit &&
 						         	<Grid item xs={12} sm={12}>
-						         		<Button onClick={()=>this.createModal()} style={{width: '100%'}} variant="contained" color="secondary">DELETE</Button>
+						         		<Button onClick={()=>this.delete()} style={{width: '100%'}} variant="contained" color="secondary">DELETE</Button>
 						         	</Grid>
 						         }
 

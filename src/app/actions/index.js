@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT} from '../api';
+import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT} from '../api';
 import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
@@ -62,6 +62,32 @@ export const getContact = (userid,token) => {
 					type: CONTACT_UPDATED,
 					contact: response.data
 				})
+			})
+			.catch(err=>{
+				console.log(err.message);
+			})
+	}
+}
+
+export const updateContact = (data,token) => {
+	return async function(dispatch){
+		return await axios.patch(UPDATE_CONTACT,data,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch(getContact(data.userid,token));
+				return "success";
+			})
+			.catch(err=>{
+				console.log(err.message);
+			})
+	}
+} 
+
+export const deleteContact = (contactid,token) => {
+	return async function(dispatch){
+		return await axios.delete(DELETE_CONTACT,{contactid},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch(getContact());
+				return "success";
 			})
 			.catch(err=>{
 				console.log(err.message);

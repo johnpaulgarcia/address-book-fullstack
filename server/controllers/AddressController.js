@@ -15,7 +15,7 @@ exports.addContact = (req,res,next) => {
 
 	db.contact.save(contact,{deepInsert: true})
 		.then(contact=>{
-			res.send(contact);
+			res.status(201).end();
 		}).catch(err=>{
 			console.error(err);
 			res.status(500).end();
@@ -25,7 +25,7 @@ exports.addContact = (req,res,next) => {
 exports.getContacts = (req,res,next) => {
 	let db = req.app.get('db');
 
-	db.query(`select * from contact inner join address on contact.contactid = address.contactid where address.userid=${req.params.userid}`,
+	db.query(`select * from contact inner join address on contact.contactid = address.contactid where address.userid=${req.params.userid} order by contact.contactid desc`,
 	[],
 	{
 		decompose: {
@@ -62,7 +62,6 @@ exports.updateContact = (req,res,next) => {
 	let db = req.app.get('db');
 	let {contactid} = req.body;
 	delete req.body.contactid;
-	console.log(req.body.contactid,req.body);
 	db.contact.update(contactid,{...req.body})
 		.then(contact=>{
 			res.status(201).send(contact);
@@ -71,4 +70,17 @@ exports.updateContact = (req,res,next) => {
 			console.error(err);
 			res.status(500).end();
 		});
+}
+
+exports.deleteContact = (req,res,next) => {
+	let db = req.app.get('db');
+	let {contactid} = req.body;
+	db.address.destroy({contactid},{priority: 'hight'},{only: false})
+		.then(response=>{
+			res.status(201).end()
+		})
+		.catch((err)=>{
+		console.error(err);
+		res.status(500).end();
+	});
 }
