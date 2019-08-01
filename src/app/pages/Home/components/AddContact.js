@@ -108,8 +108,10 @@ class AddContact extends React.Component{
 		
 		return(	
 				<Modal open={this.props.open}>
-					<Container maxWidth="xs">
+					<Grid container alignItems="center" justify="center" style={{height: '100vh',overflow: 'auto'}}>
 						<br />
+					
+						<Grid item xs={12} sm={7} md={5} lg={3}>
 						<form onSubmit={this.submit} style={{width: '100%',backgroundColor: '#fff'}}>
 						         <Grid container spacing={3} style={{padding: '10px'}}>
 						         	<Grid item xs={12} sm={6}>
@@ -252,7 +254,9 @@ class AddContact extends React.Component{
 
 						         </Grid>
 						</form>
-					</Container>
+						</Grid>
+						
+					</Grid>
 				</Modal>
 			)
 	}
