@@ -24,8 +24,8 @@ class Home extends React.Component{
 				 style={{width:'inherit',height: '90vh'}}
 				>
 
-					<Grid item lg={11} xs={12} sm={11} md={11}>
-						<Card style={{height: '80vh'}}>
+					<Grid item xs={12}>
+						<Card style={{height: '90vh',overflow: 'auto'}}>
 							<ContactTable />
 						</Card>
 						<AddContact/>

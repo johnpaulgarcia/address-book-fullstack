@@ -8,7 +8,9 @@ router.route('/').get((req,res,next)=>{
 
 router.route('/signup').post(UserController.register);
 router.route('/signin').post(UserController.login);
-srouter.route('/addcontact').post(AddressController.addContact);
 router.route('/getcontacts/:userid').get(AddressController.getContacts);
+
+srouter.route('/addcontact').post(AddressController.addContact);
+srouter.route('/updatecontact').patch(AddressController.updateContact);
 
 module.exports = {router,srouter}

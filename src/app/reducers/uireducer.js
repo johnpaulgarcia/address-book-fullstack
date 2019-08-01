@@ -3,7 +3,9 @@ module.exports = (state={},action)=>{
 	switch(action.type){
 		case constants.CREATE_MODAL: {
 			return {
-				open: action.open
+				open: action.open,
+				edit: action.edit,
+				payload: action.payload
 			}
 		}
 

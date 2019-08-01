@@ -1,11 +1,18 @@
 import React from 'react';
-import {Table,TableBody,TableHead,TableRow,TableCell,Hidden} from '@material-ui/core';
+import {Table,TableBody,TableHead,TableRow,TableCell,Hidden,Button} from '@material-ui/core';
+import {Settings} from '@material-ui/icons';
 import {connect} from 'react-redux';
-import {getContact} from '../../../actions';
+import {getContact,create} from '../../../actions';
+import AddContact from './AddContact';
 class ContactTable extends React.Component<Props,State>{
 	componentDidMount(){
 		this.props.dispatch(getContact(this.props.user.userid,this.props.user.token));
 	}
+
+	manage = (data) => {
+		this.props.dispatch(create(true,true,data));
+	}
+
 	render(){
 		return(
 				<Table>
@@ -22,6 +29,7 @@ class ContactTable extends React.Component<Props,State>{
 												<Hidden mdDown><TableCell>State/Province</TableCell></Hidden>
 												<Hidden mdDown><TableCell>Postal Code</TableCell></Hidden>
 												<Hidden mdDown><TableCell>Country</TableCell></Hidden>
+												<TableCell></TableCell>
 										</TableRow>
 									</TableHead>
 
@@ -33,14 +41,15 @@ class ContactTable extends React.Component<Props,State>{
 																<TableRow>
 													<TableCell>{key.firstname}</TableCell>
 													<TableCell>{key.lastname}</TableCell>
-													<Hidden xsDown><TableCell>john.garcia@boom.camp</TableCell></Hidden>
-													<Hidden xsDown><TableCell>+1 484-5555</TableCell></Hidden>
-													<Hidden smDown><TableCell>+1 585-4545</TableCell></Hidden>
-													<Hidden mdDown><TableCell>+1 686-1123</TableCell></Hidden>
-													<Hidden mdDown><TableCell>Sorsogon</TableCell></Hidden>
-													<Hidden mdDown><TableCell>Sorsogon</TableCell></Hidden>
-													<Hidden mdDown><TableCell>4713</TableCell></Hidden>
-													<Hidden mdDown><TableCell>PH</TableCell></Hidden>
+													<Hidden xsDown><TableCell>{key.email}</TableCell></Hidden>
+													<Hidden xsDown><TableCell>{key.work}</TableCell></Hidden>
+													<Hidden smDown><TableCell>{key.mobile}</TableCell></Hidden>
+													<Hidden mdDown><TableCell>{key.home}</TableCell></Hidden>
+													<Hidden mdDown><TableCell>{key.city}</TableCell></Hidden>
+													<Hidden mdDown><TableCell>{key.state}</TableCell></Hidden>
+													<Hidden mdDown><TableCell>{key.postcode}</TableCell></Hidden>
+													<Hidden mdDown><TableCell>{key.country}</TableCell></Hidden>
+													<TableCell><Button onClick={()=>this.manage(key)}><Settings/></Button></TableCell>
 												</TableRow>
 
 															)

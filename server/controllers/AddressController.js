@@ -52,22 +52,23 @@ exports.getContacts = (req,res,next) => {
 	).then(response=>{
 		res.send(...response);
 	})
+	.catch(err=>{
+			console.error(err);
+			res.status(500).end();
+		});
+}
 
-
-	// db.address.find({userid:req.params.userid},{
-	// 	decompose: {
-	// 		pk: 'userid',
-	// 		columns: ['userid'],
-	// 		contact: {
-	// 			pk: 'contactid',
-	// 			columns: {
-	// 				first_name:'firstname',
-	// 				last_name:'lastname'
-	// 			}
-	// 		},
-	// 		array: true
-	// 	}
-	// }).then(contact=>{
-	// 	console.log(contact);
-	// })
+exports.updateContact = (req,res,next) => {
+	let db = req.app.get('db');
+	let {contactid} = req.body;
+	delete req.body.contactid;
+	console.log(req.body.contactid,req.body);
+	db.contact.update(contactid,{...req.body})
+		.then(contact=>{
+			res.status(201).send(contact);
+		})
+		.catch(err=>{
+			console.error(err);
+			res.status(500).end();
+		});
 }

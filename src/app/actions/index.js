@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT} from '../api';
-import {USER_AUTH,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED} from '../constants';
+import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
 			return await axios.post(REGISTER,{user,password},{timeout: 1000})
@@ -45,7 +45,8 @@ export const addContact = (data,token) => {
 	return async function(dispatch){
 		return await axios.post(ADD_CONTACT,{...data},{headers: {"Authorization": `Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
-				console.log(response.data);
+				dispatch(getContact(data.userid,token));
+				return "success";
 			})
 			.catch(err=>{
 				console.log(err.message);
@@ -70,15 +71,17 @@ export const getContact = (userid,token) => {
 
 export const logout = () => {
 	return {
-		type: USER_AUTH,
+		type: USER_LOGOUT,
 		user: null
 	}
 }
 
-export const create = (open) => {
+export const create = (open,edit,payload) => {
 	return {
 		type: CREATE_MODAL,
-		open
+		open,
+		edit: edit ? true : false,
+		payload: payload ? payload : undefined
 	}
 }
 
