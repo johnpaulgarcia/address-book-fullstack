@@ -1,6 +1,7 @@
 import React from 'react';
-import {Modal,Grid,Card,Button,Typography,TextField,Paper,Container} from '@material-ui/core';
+import {Modal,Grid,Card,Button,Typography,TextField,Paper,Container,Dialog,DialogTitle} from '@material-ui/core';
 import {create,addContact,updateContact,deleteContact} from '../../../actions';
+import {Check,Clear} from '@material-ui/icons';
 import {connect} from 'react-redux';
 import styles from './styles';
 class AddContact extends React.Component{
@@ -17,7 +18,8 @@ class AddContact extends React.Component{
 			state: '',
 			country: '',
 			postcode: '',
-			once: false
+			once: false,
+			confirm: false
 		}
 		this.state = this.originalState;
 	}
@@ -98,9 +100,17 @@ class AddContact extends React.Component{
 		let token = this.props.user.token;
 		let res = await this.props.dispatch(deleteContact(contactid,token,this.props.user.userid));
 		if(res==="success"){
-			this.setState(this.originalState)
-			this.createModal();
+			this.setState(()=>{
+				return this.originalState
+			},()=>{
+				this.createModal();
+			})
+			
 		}
+	}
+
+	confirmDelete = () => {
+		this.setState({confirm: true})
 	}
 
 	render(){
@@ -148,6 +158,7 @@ class AddContact extends React.Component{
 								            id="email"
 								            label="Email Address"
 								            name="email"
+								            type="email"
 								            autoComplete="email"
 								            value={email}
 								          />
@@ -235,6 +246,7 @@ class AddContact extends React.Component{
 								            name="postcode"
 								            autoComplete="postcode"
 								            value={postcode}
+								            type="number"
 								          />
 						         	</Grid>
 
@@ -247,16 +259,40 @@ class AddContact extends React.Component{
 						         	</Grid>
 								{this.props.edit &&
 						         	<Grid item xs={12} sm={12}>
-						         		<Button onClick={()=>this.delete()} style={{width: '100%'}} variant="contained" color="secondary">DELETE</Button>
+						         		<Button onClick={()=>this.confirmDelete()} style={{width: '100%'}} variant="contained" color="secondary">DELETE</Button>
 						         	</Grid>
 						         }
 
 
 						         </Grid>
 						</form>
+							
+							<Dialog open={this.state.confirm}>
+								<Grid container>
+									<Grid item xs={12} sm={12} lg={12} style={{padding: '20px'}}>
+										<DialogTitle>Delete Contact?</DialogTitle>
+										<Grid container direction="row" alignItems="center" justify="space-between" spacing={5}>
+											<Grid item>
+												<Button onClick={()=>this.setState({confirm: false})}>
+													<Clear />
+												</Button>
+											</Grid>
+
+											<Grid item>
+												<Button onClick={()=>this.delete()}>
+													<Check />
+												</Button>
+											</Grid>
+										</Grid>
+									</Grid>
+								</Grid>
+							</Dialog>
+
 						</Grid>
 						
 					</Grid>
+
+					
 				</Modal>
 			)
 	}

@@ -1,16 +1,35 @@
 import React from 'react';
 import {Table,TableBody,TableHead,TableRow,TableCell,Hidden,Button} from '@material-ui/core';
-import {Settings} from '@material-ui/icons';
+import {Settings,ArrowDropDown,ArrowDropUp} from '@material-ui/icons';
 import {connect} from 'react-redux';
 import {getContact,create} from '../../../actions';
 import AddContact from './AddContact';
 class ContactTable extends React.Component<Props,State>{
+
+	constructor(props){
+		super(props);
+		this.state = {
+			sort: false
+		}
+	}
+
 	componentDidMount(){
 		this.props.dispatch(getContact(this.props.user.userid,this.props.user.token));
 	}
 
 	manage = (data) => {
 		this.props.dispatch(create(true,true,data));
+	}
+
+	sort = () => {
+		this.setState(()=>{
+			return {
+				sort: !this.state.sort
+			}
+		},()=>{
+			let {sort} = this.state;
+			this.props.dispatch(getContact(this.props.user.userid,this.props.user.token,sort));
+		})
 	}
 
 	render(){
@@ -29,7 +48,7 @@ class ContactTable extends React.Component<Props,State>{
 												<Hidden mdDown><TableCell>State/Province</TableCell></Hidden>
 												<Hidden mdDown><TableCell>Postal Code</TableCell></Hidden>
 												<Hidden mdDown><TableCell>Country</TableCell></Hidden>
-												<TableCell></TableCell>
+												<TableCell><Button onClick={()=>this.sort()}>{this.state.sort ? <ArrowDropUp /> : <ArrowDropDown />}<pre>Last Name</pre></Button></TableCell>
 										</TableRow>
 									</TableHead>
 

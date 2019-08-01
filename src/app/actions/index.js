@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT} from '../api';
+import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT,SEARCH_CONTACT} from '../api';
 import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
@@ -54,9 +54,25 @@ export const addContact = (data,token) => {
 	}
 }
 
-export const getContact = (userid,token) => {
+export const getContact = (userid,token,sort) => {
+	sort = sort ? "desc" : "asc";
 	return async function(dispatch){
-		return await axios.get(`${GET_CONTACT}/${userid}`,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.get(`${GET_CONTACT}/${userid}?sort=${sort}`,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch({
+					type: CONTACT_UPDATED,
+					contact: response.data
+				})
+			})
+			.catch(err=>{
+				console.log(err.message);
+			})
+	}
+}
+
+export const searchContact = (userid,token,q) => {
+	return async function(dispatch){
+		return await axios.get(`${SEARCH_CONTACT}/${userid}?q=${q}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch({
 					type: CONTACT_UPDATED,

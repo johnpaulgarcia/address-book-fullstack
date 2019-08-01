@@ -1,15 +1,16 @@
 import React from 'react';
 import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
-import {Grid,Typography,Button} from '@material-ui/core';
+import {Grid,Typography,Button,TextField} from '@material-ui/core';
 import {PersonAdd,ExitToApp} from '@material-ui/icons';
-import {logout,create} from '../../actions';
+import {logout,create,searchContact} from '../../actions';
 import {connect} from 'react-redux';
 class Header extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			user: []
+			user: [],
+			search:''
 		}
 	}
 
@@ -21,8 +22,18 @@ class Header extends React.Component {
 		this.props.dispatch(create(true));
 	}
 
+	search = (e) => {
+		e.persist();
+		this.setState(()=>{
+			return {search:e.target.value}
+		},()=>{
+			let {search} = this.state;
+			this.props.dispatch(searchContact(this.props.user.userid,this.props.user.token,search));
+		})
+	}
+
 	render(){
-		let {user} = this.props;
+		let {user,classes} = this.props;
 		return(
 				<Grid
 				 container
@@ -39,6 +50,11 @@ class Header extends React.Component {
 					</Grid>
 
 					{user && <Grid item direction="row">
+
+						<TextField onInput={this.search} value={this.state.search} className={classes.searchbar} placeholder="Search Contacts" 
+						InputProps={{style:{color: 'white'}}}
+						/>
+
 						<Button onClick={()=>this.createModal()} style={styles.item}>
 							<PersonAdd style={{color: '#fff'}}/>
 						</Button>

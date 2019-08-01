@@ -13,5 +13,6 @@ router.route('/getcontacts/:userid').get(AddressController.getContacts);
 srouter.route('/addcontact').post(AddressController.addContact);
 srouter.route('/updatecontact').patch(AddressController.updateContact);
 srouter.route('/deletecontact').post(AddressController.deleteContact);
+srouter.route('/searchcontact/:userid').get(AddressController.searchContact);
 
 module.exports = {router,srouter}

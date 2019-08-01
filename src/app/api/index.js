@@ -4,4 +4,5 @@ exports.LOGIN = `${API}/signin`;
 exports.UPDATE_CONTACT = `${API}/updatecontact`;
 exports.ADD_CONTACT = `${API}/addcontact`;
 exports.GET_CONTACT = `${API}/getcontacts`;
+exports.SEARCH_CONTACT = `${API}/searchcontact`;
 exports.DELETE_CONTACT = `${API}/deletecontact`;

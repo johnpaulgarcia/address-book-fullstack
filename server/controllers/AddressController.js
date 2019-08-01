@@ -24,8 +24,10 @@ exports.addContact = (req,res,next) => {
 
 exports.getContacts = (req,res,next) => {
 	let db = req.app.get('db');
-
-	db.query(`select * from contact inner join address on contact.contactid = address.contactid where address.userid=${req.params.userid} order by contact.contactid desc`,
+	let sort = req.query.sort;
+	db.query(`select * from contact inner join address on contact.contactid = address.contactid 
+					where address.userid=${req.params.userid}
+						order by contact.last_name ${sort}`,
 	[],
 	{
 		decompose: {
@@ -86,4 +88,41 @@ exports.deleteContact = (req,res,next) => {
 		console.error(err);
 		res.status(500).end();
 	});
+}
+
+exports.searchContact = (req,res,next) => {
+	let db = req.app.get('db');
+	let {q} = req.query;
+	db.query(`select * from contact inner join address on contact.contactid = address.contactid 
+					where address.userid=${req.params.userid} and (first_name LIKE '%${q}%' or last_name LIKE '%${q}%')`,
+	[],
+	{
+		decompose: {
+			contact: {
+				pk: 'contactid',
+				columns: 
+					{
+						contactid:'contactid',
+						first_name:'firstname',
+						last_name: 'lastname',
+						email: 'email',
+						home_phone:'home',
+						work_phone:'work',
+						mobile_phone:'mobile',
+						city:'city',
+						postal_code:'postcode',
+						state_or_province:'state',
+						country:'country'
+					},
+				array: true
+			}
+		}
+	}
+	).then(response=>{
+		res.send(...response);
+	})
+	.catch(err=>{
+			console.error(err);
+			res.status(500).end();
+		});
 }

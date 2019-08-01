@@ -8,6 +8,10 @@ const styles = {
 
 	item: {
 		padding: '10px',
+	},
+
+	searchbar: {
+		borderBottom: '1px solid white',
 	}
 }
 
