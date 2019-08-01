@@ -12,6 +12,6 @@ router.route('/getcontacts/:userid').get(AddressController.getContacts);
 
 srouter.route('/addcontact').post(AddressController.addContact);
 srouter.route('/updatecontact').patch(AddressController.updateContact);
-srouter.route('/deletecontact').delete(AddressController.deleteContact);
+srouter.route('/deletecontact').post(AddressController.deleteContact);
 
 module.exports = {router,srouter}

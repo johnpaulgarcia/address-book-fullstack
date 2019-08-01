@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secret = require('./secret');
 
 exports.checkPoint = (req,res,next) => {
-	if(!req.headers.authorization) {return res.status(403).end()}
+	if(!req.headers.authorization) {return res.status(401).end()}
 	try{
 
 		let key = req.headers.authorization.split(' ')[1];

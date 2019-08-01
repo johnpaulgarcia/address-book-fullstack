@@ -82,11 +82,11 @@ export const updateContact = (data,token) => {
 	}
 } 
 
-export const deleteContact = (contactid,token) => {
+export const deleteContact = (contactid,token,userid) => {
 	return async function(dispatch){
-		return await axios.delete(DELETE_CONTACT,{contactid},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.post(DELETE_CONTACT,{contactid},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
-				dispatch(getContact());
+				dispatch(getContact(userid,token));
 				return "success";
 			})
 			.catch(err=>{

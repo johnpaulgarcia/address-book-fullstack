@@ -96,9 +96,9 @@ class AddContact extends React.Component{
 	delete = async () => {
 		let contactid = this.props.payload.contactid;
 		let token = this.props.user.token;
-		console.log(token);
-		let res = await this.props.dispatch(deleteContact(contactid,token));
+		let res = await this.props.dispatch(deleteContact(contactid,token,this.props.user.userid));
 		if(res==="success"){
+			this.setState(this.originalState)
 			this.createModal();
 		}
 	}
