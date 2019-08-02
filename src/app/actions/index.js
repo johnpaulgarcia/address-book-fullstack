@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT,SEARCH_CONTACT,GET_GROUP,ADD_GROUP} from '../api';
-import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED,GROUP_UPDATED} from '../constants';
+import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT,SEARCH_CONTACT,GET_GROUP,ADD_GROUP,GETBY_GROUP} from '../api';
+import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED,GROUP_UPDATED,BY_GROUP} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
 			return await axios.post(REGISTER,{user,password},{timeout: 1000})
@@ -89,6 +89,7 @@ export const updateContact = (data,token) => {
 		return await axios.patch(UPDATE_CONTACT,data,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getContact(data.userid,token));
+				dispatch(getByGroup(data.userid,token));
 				return "success";
 			})
 			.catch(err=>{
@@ -96,6 +97,20 @@ export const updateContact = (data,token) => {
 			})
 	}
 } 
+
+export const getByGroup = (userid,token) =>{
+	return async function(dispatch){
+		return axios.get(`${GETBY_GROUP}/${userid}`,{headers:{"Authorization":`Bearer ${token}`}}).then(response=>{
+			dispatch({
+				type: BY_GROUP,
+				bygroup: response.data.groups
+			})
+		})
+		.catch(err=>{
+			console.log(err);
+		})
+	}
+}
 
 export const deleteContact = (contactid,token,userid) => {
 	return async function(dispatch){

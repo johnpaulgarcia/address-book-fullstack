@@ -3,12 +3,14 @@ import user from './userReducer';
 import contact from './contactReducer';
 import ui from './uireducer';
 import group from './groupReducer';
+import gcontact from './groupcontact';
 import {USER_LOGOUT} from '../constants';
 const appReducer = combineReducers({
 	user,
 	contact,
 	ui,
-	group
+	group,
+	gcontact,
 });
 
 const rootReducer = (state,action) => {

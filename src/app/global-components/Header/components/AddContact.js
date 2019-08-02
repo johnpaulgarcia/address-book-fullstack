@@ -57,7 +57,7 @@ class AddContact extends React.Component{
 	}
 	componentDidUpdate(){
 		if(this.props.edit){
-			let {firstname,lastname,email,work,mobile,home,city,state,country,postcode} = this.props.payload;
+			let {firstname,lastname,email,work,mobile,home,city,state,country,postcode,groupid} = this.props.payload;
 			if(!this.state.once){
 				this.setState({
 
@@ -69,6 +69,7 @@ class AddContact extends React.Component{
 						home_phone:home,
 						city,
 						state,
+						groupid,
 						country,
 						postcode,
 						once: true

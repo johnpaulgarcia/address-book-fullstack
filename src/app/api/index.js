@@ -8,3 +8,4 @@ exports.SEARCH_CONTACT = `${API}/searchcontact`;
 exports.DELETE_CONTACT = `${API}/deletecontact`;
 exports.GET_GROUP = `${API}/groups`;
 exports.ADD_GROUP = `${API}/groups/add`;
+exports.GETBY_GROUP = `${API}/groups/contact`;

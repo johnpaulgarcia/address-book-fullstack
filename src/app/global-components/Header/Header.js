@@ -3,7 +3,7 @@ import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
 import {Grid,Typography,Button,TextField} from '@material-ui/core';
 import {PersonAdd,ExitToApp,GroupAdd} from '@material-ui/icons';
-import {logout,create,searchContact,getGroup} from '../../actions';
+import {logout,create,searchContact,getGroup,getByGroup} from '../../actions';
 import {connect} from 'react-redux';
 
 import {Group,Search,AddContact} from './components';
@@ -21,6 +21,7 @@ class Header extends React.Component {
 	componentDidUpdate(){
 		try{
 			this.props.dispatch(getGroup(this.props.user.userid,this.props.user.token));
+			this.props.dispatch(getByGroup(this.props.user.userid,this.props.user.token));
 		}
 		catch(err){}
 	}

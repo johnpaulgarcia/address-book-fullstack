@@ -17,5 +17,6 @@ srouter.route('/deletecontact').post(AddressController.deleteContact);
 srouter.route('/searchcontact/:userid').get(AddressController.searchContact);
 srouter.route('/groups/:userid').get(GroupController.getGroup);
 srouter.route('/groups/add').post(GroupController.addGroup);
+srouter.route('/groups/contact/:userid').get(GroupController.getByGroup);
 
 module.exports = {router,srouter}

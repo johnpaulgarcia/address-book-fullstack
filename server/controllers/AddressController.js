@@ -29,6 +29,7 @@ exports.getContacts = (req,res,next) => {
 	let db = req.app.get('db');
 	let sort = req.query.sort;
 	db.query(`select * from contact inner join address on contact.contactid = address.contactid 
+					left join groups on address.groupid = groups.groupid
 					where address.userid=${req.params.userid}
 						order by contact.last_name ${sort}`,
 	[],
@@ -48,6 +49,7 @@ exports.getContacts = (req,res,next) => {
 						city:'city',
 						postal_code:'postcode',
 						state_or_province:'state',
+						groupid:'groupid',
 						country:'country'
 					},
 				array: true
@@ -55,6 +57,7 @@ exports.getContacts = (req,res,next) => {
 		}
 	}
 	).then(response=>{
+		console.log(JSON.stringify(response));
 		res.send(...response);
 	})
 	.catch(err=>{
@@ -66,10 +69,15 @@ exports.getContacts = (req,res,next) => {
 exports.updateContact = (req,res,next) => {
 	let db = req.app.get('db');
 	let {contactid} = req.body;
+	let {groupid} =req.body;
+	delete req.body.groupid;
 	delete req.body.contactid;
 	db.contact.update(contactid,{...req.body})
 		.then(contact=>{
-			res.status(201).send(contact);
+			db.address.update({userid:req.body.userid},{groupid})
+				.then(adr=>{
+					res.status(201).send(contact);
+				})
 		})
 		.catch(err=>{
 			console.error(err);
@@ -97,6 +105,7 @@ exports.searchContact = (req,res,next) => {
 	let db = req.app.get('db');
 	let {q} = req.query;
 	db.query(`select * from contact inner join address on contact.contactid = address.contactid 
+					left join groups on address.groupid = groups.groupid 
 					where address.userid=${req.params.userid} and (first_name LIKE '%${q}%' or last_name LIKE '%${q}%')`,
 	[],
 	{
@@ -115,6 +124,7 @@ exports.searchContact = (req,res,next) => {
 						city:'city',
 						postal_code:'postcode',
 						state_or_province:'state',
+						groupid:'groupid',
 						country:'country'
 					},
 				array: true
