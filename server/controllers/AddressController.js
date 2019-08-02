@@ -1,12 +1,15 @@
 const jwt = require('jsonwebtoken');
 exports.addContact = (req,res,next) => {
 	let db = req.app.get('db');
+	let groupid = req.body.groupid;
+	delete req.body.groupid;
 	let contact = {
 		...req.body,
 		address: [
 			{
 				userid: req.body.userid,
-				contactid: undefined
+				contactid: undefined,
+				groupid
 			}
 		]
 	}

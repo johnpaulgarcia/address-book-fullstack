@@ -12,6 +12,10 @@ const styles = {
 
 	searchbar: {
 		borderBottom: '1px solid white',
+	},
+	input: {
+		width: '100%',
+		margin: '5px'
 	}
 }
 

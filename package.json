@@ -25,6 +25,7 @@
   },
   "scripts": {
     "api": "nodemon ./server/server.js",
+    "db": "cd server && sudo docker-compose up",
     "migrate": "node-pg-migrate",
     "start": "react-scripts start",
     "build": "react-scripts build",

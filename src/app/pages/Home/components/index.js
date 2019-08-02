@@ -1,3 +1,3 @@
 import ContactTable from './Table';
-import AddContact from './AddContact';
-export {ContactTable,AddContact}
+import Group from './Group';
+export {ContactTable,Group}

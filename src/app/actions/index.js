@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT,SEARCH_CONTACT} from '../api';
-import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED} from '../constants';
+import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT,SEARCH_CONTACT,GET_GROUP,ADD_GROUP} from '../api';
+import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED,GROUP_UPDATED} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
 			return await axios.post(REGISTER,{user,password},{timeout: 1000})
@@ -9,14 +9,13 @@ export const signup = (user,password) => {
 						type: USER_AUTH,
 						user: response.data
 					})
+
+					return "success"
 				})
 
 				.catch(err=>{
-					let error = err.response.status === 403 ? "Please review your credentials." : `Ooops. Sorry for inconvenience. error_code:${err.response.status}`
-					dispatch({
-						type: AUTH_FAILED,
-						error
-					})
+					let error = err.response.status === 403 ? "Username already exists!." : `Ooops. Sorry for inconvenience. error_code:${err.response.status}`
+					return error
 				})
 		}
 }
@@ -29,14 +28,13 @@ export const login = (user,password) => {
 					type: USER_AUTH,
 					user: response.data
 				})
+
+				return "success"
 			})
 
 			.catch(err=>{
 				let error = err.response.status === 403 ? "Please review your credentials." : `Ooops. Sorry for inconvenience. error_code:${err.response.status}`
-				dispatch({
-					type: AUTH_FAILED,
-					error
-				})
+				return error;
 			})
 	}
 }
@@ -49,7 +47,7 @@ export const addContact = (data,token) => {
 				return "success";
 			})
 			.catch(err=>{
-				console.log(err.message);
+				return "Error adding contact";
 			})
 	}
 }
@@ -69,6 +67,7 @@ export const getContact = (userid,token,sort) => {
 			})
 	}
 }
+
 
 export const searchContact = (userid,token,q) => {
 	return async function(dispatch){
@@ -107,6 +106,38 @@ export const deleteContact = (contactid,token,userid) => {
 			})
 			.catch(err=>{
 				console.log(err.message);
+			})
+	}
+}
+
+
+export const getGroup = (userid,token) => {
+	return async function(dispatch){
+		return await axios.get(`${GET_GROUP}/${userid}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				console.log("Groups",response.data);
+				dispatch({
+					type: GROUP_UPDATED,
+					groups: response.data
+				})
+			})
+			.catch(err=>{
+				console.log(err.message);
+			})
+
+	}
+}
+
+export const addGroup = (userid,name,token) => {
+	return async function(dispatch){
+		return await axios.post(ADD_GROUP,{userid,name},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch(getGroup());
+				return "Group Added"
+			})
+			.catch(err=>{
+				console.log(err);
+				return "Failed to Add"
 			})
 	}
 }

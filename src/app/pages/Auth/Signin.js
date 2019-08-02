@@ -20,13 +20,6 @@ class Signin extends React.Component {
 
 		componentDidUpdate(){
 			let {autherror} = this.props;
-			if(autherror && autherror !== this.state.message){
-				this.setState(()=>{
-					return {
-						message: autherror
-					}
-				})
-			}
 		}
 
 		handleInput = value => e => {
@@ -36,17 +29,23 @@ class Signin extends React.Component {
 					[value]:e.target.value,
 					[`${value}Err`]: e.target.value ? false : true
 				}
-			})
+			});
 		}
-		register = () => {
+		register = async () => {
 			let {username,password} = this.state;
-			this.props.dispatch(signup(username,password));
+			let res = await this.props.dispatch(signup(username,password));
+			if(res!=="success"){
+				this.setState({message:res})
+			}
 		}
 
-		submit = (e) => {
+		submit = async (e) => {
 			e.preventDefault();
 			let {username,password} = this.state;
-			this.props.dispatch(login(username,password))	
+			let res = await this.props.dispatch(login(username,password));	
+			if(res!=="success"){
+				this.setState({message:res})
+			}
 		}
 	render(){
 	        let {usernameErr,passwordErr,message} = this.state;
@@ -99,9 +98,9 @@ class Signin extends React.Component {
 						
 						</form>
 
-						{this.state.message && <Card style={{position: 'absolute',left: 0,right: 0,height: '40px',fontSize: '15px',letterSpacing: '1.2px',display: 'flex',alignItems: 'center',justifyContent: 'center',color: 'red'}}>
+						{this.state.message && <Card style={{position: 'absolute',left: 0,right: 0,height: '40px',fontSize: '1.2rem',letterSpacing: '1.2px',display: 'flex',alignItems: 'center',justifyContent: 'center',color: 'red'}}>
 
-								Message: {this.state.message}
+								{this.state.message}
 
 						</Card>}
 					</Grid>

@@ -3,7 +3,6 @@ import {Table,TableBody,TableHead,TableRow,TableCell,Hidden,Button} from '@mater
 import {Settings,ArrowDropDown,ArrowDropUp} from '@material-ui/icons';
 import {connect} from 'react-redux';
 import {getContact,create} from '../../../actions';
-import AddContact from './AddContact';
 class ContactTable extends React.Component<Props,State>{
 
 	constructor(props){
@@ -57,7 +56,7 @@ class ContactTable extends React.Component<Props,State>{
 													this.props.contact ? this.props.contact.contact.map(key=>{
 														return(
 
-																<TableRow>
+																<TableRow style={{textTransform: 'capitalize'}}>
 													<TableCell>{key.firstname}</TableCell>
 													<TableCell>{key.lastname}</TableCell>
 													<Hidden xsDown><TableCell>{key.email}</TableCell></Hidden>

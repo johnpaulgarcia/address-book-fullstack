@@ -1,9 +1,39 @@
 import React from 'react';
-import {Modal,Grid,Card,Button,Typography,TextField,Paper,Container,Dialog,DialogTitle} from '@material-ui/core';
-import {create,addContact,updateContact,deleteContact} from '../../../actions';
-import {Check,Clear} from '@material-ui/icons';
+import {
+			Select,
+			MenuItem,
+			Modal,
+			Grid,
+			Card,
+			CardHeader,
+			CardContent,
+			Button,
+			Typography,
+			TextField,
+			Paper,
+			Container,
+			Dialog,
+			DialogTitle,
+			InputLabel,
+			Input
+
+		} from '@material-ui/core';
+import {
+
+		create,
+		addContact,
+		updateContact,
+		deleteContact
+
+	} from '../../../actions';
+import {
+
+		Check,Clear
+
+	} from '@material-ui/icons';
+
 import {connect} from 'react-redux';
-import styles from './styles';
+import styles from '../styles';
 class AddContact extends React.Component{
 	constructor(props){
 		 super(props);
@@ -19,11 +49,12 @@ class AddContact extends React.Component{
 			country: '',
 			postcode: '',
 			once: false,
-			confirm: false
+			confirm: false,
+			groupid: undefined,
+			title:"Add Contact"
 		}
 		this.state = this.originalState;
 	}
-
 	componentDidUpdate(){
 		if(this.props.edit){
 			let {firstname,lastname,email,work,mobile,home,city,state,country,postcode} = this.props.payload;
@@ -74,22 +105,27 @@ class AddContact extends React.Component{
 			country,
 			postal_code:postcode,
 			city,
-			userid: this.props.user.userid
+			userid: this.props.user.userid,
+			groupid: this.state.groupid || 0
 		}
 		let token = this.props.user.token;
 		if(this.props.edit){
 			data.contactid = this.props.payload.contactid;
 			let res = await this.props.dispatch(updateContact(data,token));
 			if(res==="success"){
-				this.setState(this.originalState)
-				this.createModal();
+				this.setState(()=>{
+					return this.originalState
+				},()=>{
+					this.createModal();
+				})
 			}
 		}
 
 		else {
 			let res = await this.props.dispatch(addContact(data,token));
 			if(res==="success"){
-				this.setState(this.originalState)
+				this.setState({...this.originalState,title: "Contact Added"})
+				setTimeout(()=>{this.setState({title:"Add Contact"})},800)
 			}
 		}
 	}
@@ -113,15 +149,21 @@ class AddContact extends React.Component{
 		this.setState({confirm: true})
 	}
 
+	changeGroup = name => e => {
+		this.setState({
+			[name]:e.target.value
+		})
+	}
+
 	render(){
 		let {firstname,lastname,email,work_phone,mobile_phone,home_phone,city,state,country,postcode} = this.state;
 		
 		return(	
 				<Modal open={this.props.open}>
 					<Grid container alignItems="center" justify="center" style={{height: '100vh',overflow: 'auto'}}>
-						<br />
-					
 						<Grid item xs={12} sm={7} md={5} lg={3}>
+						<Card>
+						<CardHeader title={this.state.title} subheader="Save your contacts."/>
 						<form onSubmit={this.submit} style={{width: '100%',backgroundColor: '#fff'}}>
 						         <Grid container spacing={3} style={{padding: '10px'}}>
 						         	<Grid item xs={12} sm={6}>
@@ -249,6 +291,26 @@ class AddContact extends React.Component{
 								            type="number"
 								          />
 						         	</Grid>
+								{this.props.group &&
+						         	<Grid item xs={12}>
+										<InputLabel htmlFor="group">Contact Group</InputLabel>
+										<Select 
+											style={{width: '100%'}}
+											input={<Input id="group" />}
+											onChange={this.changeGroup('groupid')}
+											value={this.state.groupid}
+											>
+											{
+												this.props.group.map(key=>{
+													return (
+															<MenuItem value={key.groupid}>{key.name}</MenuItem>
+														)
+												})
+											}
+										</Select>
+						         	</Grid>
+
+						         }
 
 						         	<Grid item xs={12} sm={6}>
 						         		<Button type="submit" style={{width: '100%'}} variant="contained" color="primary">{this.props.edit ? "UPDATE" : "CREATE"}</Button>
@@ -265,7 +327,9 @@ class AddContact extends React.Component{
 
 
 						         </Grid>
+
 						</form>
+						 </Card>
 							
 							<Dialog open={this.state.confirm}>
 								<Grid container>
@@ -302,6 +366,7 @@ const mapStateToProps = (state) => {
 	return {
 
 		user: state.user.user,
+		group: state.group.groups,
 		open: state.ui.open,
 		edit: state.ui.edit,
 		payload: state.ui.payload

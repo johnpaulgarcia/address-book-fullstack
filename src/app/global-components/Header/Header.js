@@ -2,16 +2,27 @@ import React from 'react';
 import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
 import {Grid,Typography,Button,TextField} from '@material-ui/core';
-import {PersonAdd,ExitToApp} from '@material-ui/icons';
-import {logout,create,searchContact} from '../../actions';
+import {PersonAdd,ExitToApp,GroupAdd} from '@material-ui/icons';
+import {logout,create,searchContact,getGroup} from '../../actions';
 import {connect} from 'react-redux';
+
+import {Group,Search,AddContact} from './components';
+
 class Header extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
 			user: [],
-			search:''
+			search:'',
+			groupmodal: false,
 		}
+	}
+
+	componentDidUpdate(){
+		try{
+			this.props.dispatch(getGroup(this.props.user.userid,this.props.user.token));
+		}
+		catch(err){}
 	}
 
 	logout = () => {
@@ -22,15 +33,11 @@ class Header extends React.Component {
 		this.props.dispatch(create(true));
 	}
 
-	search = (e) => {
-		e.persist();
-		this.setState(()=>{
-			return {search:e.target.value}
-		},()=>{
-			let {search} = this.state;
-			this.props.dispatch(searchContact(this.props.user.userid,this.props.user.token,search));
-		})
+	search = keyword => {
+		this.props.dispatch(searchContact(this.props.user.userid,this.props.user.token,keyword));
 	}
+
+	hideModal = () => this.setState({groupmodal: false})
 
 	render(){
 		let {user,classes} = this.props;
@@ -51,9 +58,11 @@ class Header extends React.Component {
 
 					{user && <Grid item direction="row">
 
-						<TextField onInput={this.search} value={this.state.search} className={classes.searchbar} placeholder="Search Contacts" 
-						InputProps={{style:{color: 'white'}}}
-						/>
+						<Search search={this.search}/>
+
+						<Button onClick={()=>this.setState({groupmodal:true})} style={styles.item}>
+							<GroupAdd style={{color: '#fff'}}/>
+						</Button>
 
 						<Button onClick={()=>this.createModal()} style={styles.item}>
 							<PersonAdd style={{color: '#fff'}}/>
@@ -64,6 +73,10 @@ class Header extends React.Component {
 						</Button>
 
 					</Grid>}
+
+					<Group hideModal={this.hideModal} open={this.state.groupmodal}/>
+					<AddContact />
+					
 					
 				</Grid>
 			)
