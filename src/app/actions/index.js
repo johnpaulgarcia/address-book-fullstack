@@ -117,6 +117,7 @@ export const deleteContact = (contactid,token,userid) => {
 		return await axios.post(DELETE_CONTACT,{contactid},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getContact(userid,token));
+				dispatch(getByGroup(userid,token));
 				return "success";
 			})
 			.catch(err=>{
