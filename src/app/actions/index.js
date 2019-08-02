@@ -44,6 +44,7 @@ export const addContact = (data,token) => {
 		return await axios.post(ADD_CONTACT,{...data},{headers: {"Authorization": `Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getContact(data.userid,token));
+				dispatch(getByGroup(data.userid,token));
 				return "success";
 			})
 			.catch(err=>{
