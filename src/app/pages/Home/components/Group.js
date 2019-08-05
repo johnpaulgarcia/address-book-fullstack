@@ -21,16 +21,27 @@ class Group extends React.Component {
 							this.props.bygroup ? Object.keys(this.props.bygroup).map(key=>{
 								return(
 
-										<Grid item xs={11} sm={4}>
+										<Grid item xs={11} sm={2}>
 											<Card>
 												<CardHeader
 												title={key}
 												style={{backgroundColor: 'teal',color: '#fff'}}
 												/>
-												<CardContent>
+												<CardContent style={{
+													display: 'flex',
+													flexDirection: 'column',
+													alignItems: 'start',
+												}}>
 													{this.props.bygroup[key].map(key=>{
 														return(
-																<Button onClick={()=>this.manage(key)}>
+																<Button  
+																	onClick={()=>this.manage(key)}
+																	style={{
+																		fontSize: '0.8rem',
+																		color: '#444',
+																		textTransform: 'capitalize'
+																	}}
+																	>
 																	{key.firstname} {key.lastname}
 																</Button>
 															)

@@ -74,7 +74,7 @@ exports.updateContact = (req,res,next) => {
 	delete req.body.contactid;
 	db.contact.update(contactid,{...req.body})
 		.then(contact=>{
-			db.address.update({userid:req.body.userid},{groupid})
+			db.address.update({userid:req.body.userid,contactid},{groupid})
 				.then(adr=>{
 					res.status(201).send(contact);
 				})
