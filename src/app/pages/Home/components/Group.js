@@ -3,13 +3,6 @@ import {Grid,Card,CardHeader,CardContent,Button} from '@material-ui/core';
 import {connect} from 'react-redux';
 import {create} from '../../../actions';
 class Group extends React.Component {
-	constructor(props){
-		super(props);
-		this.state = {
-
-		}
-	}
-
 	manage = (data) => {
 		this.props.dispatch(create(true,true,data));
 	}
