@@ -14,7 +14,7 @@ class Group extends React.Component {
 							this.props.bygroup ? Object.keys(this.props.bygroup).map(key=>{
 								return(
 
-										<Grid item xs={11} sm={2}>
+										<Grid item xs={11} sm={4} lg={2}>
 											<Card>
 												<CardHeader
 												title={key}
