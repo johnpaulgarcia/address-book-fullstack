@@ -1,12 +1,12 @@
-import React from 'react';
+   import React from 'react';
 import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
-import {Grid,Typography,Button,TextField} from '@material-ui/core';
-import {PersonAdd,ExitToApp,GroupAdd} from '@material-ui/icons';
+import {Grid,Typography,Button,TextField,Hidden,Modal} from '@material-ui/core';
+import {PersonAdd,ExitToApp,GroupAdd,Menu,Search} from '@material-ui/icons';
 import {logout,create,searchContact,getGroup,getByGroup} from '../../actions';
 import {connect} from 'react-redux';
 
-import {Group,Search,AddContact} from './components';
+import {Group,Searched,AddContact} from './components';
 
 class Header extends React.Component {
 	constructor(props){
@@ -51,15 +51,27 @@ class Header extends React.Component {
 				 style={styles.header}
 				>
 
-					<Grid item>
+					<Hidden xsDown><Grid item>
 						<Typography variant="p" style={{color: '#fff',letterSpacing: '1.2px',fontSize: '1.2rem'}}>
 							Address Book
 						</Typography>
-					</Grid>
+					</Grid></Hidden>
+
+					<Hidden smUp><Grid item>
+						<Typography variant="p" style={{color: '#fff',letterSpacing: '1.2px',fontSize: '1.2rem'}}>
+							addr.bk
+						</Typography>
+					</Grid></Hidden>
+
+
 
 					{user && <Grid item direction="row">
 
-						<Search search={this.search}/>
+						<Hidden xsDown><Searched search={this.search}/></Hidden>
+
+						<Hidden smUp><Button onClick={()=>this.setState({mobsearch:true})} style={styles.item}>
+							<Search style={{color: '#fff'}}/>
+						</Button></Hidden>
 
 						<Button onClick={()=>this.setState({groupmodal:true})} style={styles.item}>
 							<GroupAdd style={{color: '#fff'}}/>
@@ -77,6 +89,12 @@ class Header extends React.Component {
 
 					<Group hideModal={this.hideModal} open={this.state.groupmodal}/>
 					<AddContact />
+					<Hidden smUp><Modal open={this.state.mobsearch}>
+						<Grid direction="column" style={{width: '100vw',height:'100vh'}} container alignItems="center" justify="center">
+							<Searched search={this.search} />
+							<Button onClick={()=>this.setState({mobsearch:false})} style={{margin: '20px 0'}} variant="contained" color="primary">Search</Button>
+						</Grid>
+					</Modal></Hidden>
 					
 					
 				</Grid>

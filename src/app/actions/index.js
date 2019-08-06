@@ -136,7 +136,7 @@ export const getGroup = (userid,token) => {
 				dispatch({
 					type: GROUP_UPDATED,
 					groups: response.data
-				})
+				});
 			})
 			.catch(err=>{
 				console.log(err.message);
@@ -150,6 +150,7 @@ export const addGroup = (userid,name,token) => {
 		return await axios.post(ADD_GROUP,{userid,name},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getGroup());
+				dispatch(getByGroup(userid,token));
 				return "Group Added"
 			})
 			.catch(err=>{

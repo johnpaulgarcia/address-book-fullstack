@@ -72,7 +72,8 @@ class AddContact extends React.Component{
 						groupid,
 						country,
 						postcode,
-						once: true
+						once: true,
+						title: "Update Contact"
 
 				})
 			}
@@ -81,9 +82,29 @@ class AddContact extends React.Component{
 
 	handleInput = e => {
 		let {value,name} = e.target;
-		this.setState({
-			[name]:value.length > 1 ? value.replace(/  +/g,' ') : value.replace(/ +/g,'')
-		})
+		if(name.match(/phone/g)){
+		  if(!value.match(/^[a-zA-Z]/)){
+			var re = /^\(?([0-9]{2})\)?[-. ]?([0-9]{0,3})[-. ]?([0-9]{0,4})$/; 
+			var subst = '(+$1) $2 $3'; 
+			if(value.length<=16){
+				value=value.replace(re, subst);
+				this.setState({
+					[name]:value.length > 1  ? value.replace(/  +/g,' ') : value.replace(/ +/g,'')
+				})
+			}
+			}else{
+				value=""
+			}
+
+
+		}
+		else{
+
+			this.setState({
+				[name]:value.length > 1  ? value.replace(/  +/g,' ') : value.replace(/ +/g,'')
+			})
+		}
+		
 	}
 
 	createModal = () => {
@@ -289,7 +310,6 @@ class AddContact extends React.Component{
 								            name="postcode"
 								            autoComplete="postcode"
 								            value={postcode}
-								            type="number"
 								          />
 						         	</Grid>
 								{this.props.group &&

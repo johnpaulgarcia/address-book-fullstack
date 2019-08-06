@@ -1,4 +1,4 @@
 import Group from './Group';
-import Search from './Search';
+import Searched from './Search';
 import AddContact from './AddContact';
-export {Group,Search,AddContact}
+export {Group,Searched,AddContact}
