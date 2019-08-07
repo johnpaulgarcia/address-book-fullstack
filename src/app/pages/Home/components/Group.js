@@ -18,7 +18,7 @@ class Group extends React.Component {
 											<Card>
 												<CardHeader
 												title={key}
-												style={{backgroundColor: 'teal',color: '#fff'}}
+								 				style={{backgroundColor: 'teal',color: '#fff'}}
 												/>
 												<CardContent style={{
 													display: 'flex',

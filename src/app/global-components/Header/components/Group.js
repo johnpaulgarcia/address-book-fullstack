@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal,Card,CardHeader,CardContent,TextField,Button,Grid,Divider,Typography} from '@material-ui/core';
 import {DeleteForever,KeyboardBackspace,Save,Edit} from '@material-ui/icons';
-import {addGroup} from '../../../actions';
+import {addGroup,deleteGroup,updateGroup} from '../../../actions';
 import {connect} from 'react-redux';
 class Group extends React.Component {
 	constructor(props){
@@ -10,7 +10,12 @@ class Group extends React.Component {
 			name: '',
 			title: 'Add Group',
 			onAdd: true,
-			groupname: ''
+			groupname: '',
+			editgroup: false,
+			activeGroup: {
+				groupid: '',
+				name: ''
+			}
 		}
 	}
 
@@ -37,26 +42,36 @@ class Group extends React.Component {
 		return(
 			<React.Fragment>
 				{
-					Object.keys(this.props.bygroup).map(key=>{
+					this.props.groups.map(key=>{
 						return(
 
 									<Grid container direction="row" alignItems="center" justify="space-between" style={{overflow: 'auto'}}>					
 										<Grid item xs={6}>
-											<Card style={{padding: '5px'}}>{key}</Card>
+											<Card style={{padding: '5px'}}>{key.name}</Card>
 										</Grid>
 										<Grid item xs={6}>
 											<Grid container direction="row" alignItems="flex-end" justify="flex-end">
-												<Button><Edit /></Button>
-												<Button><DeleteForever /></Button>	
+												<Button onClick={()=>this.modalEdit(key)}><Edit /></Button>
+												<Button onClick={()=>this.deleteGroup(key)}><DeleteForever /></Button>	
 											</Grid>
 										</Grid>	
 									</Grid>
-									
 							)
 					})
 				}
 				</React.Fragment>
 			)
+	}
+
+	deleteGroup = (group) => {
+		let token = this.props.user.token;
+		let userid = this.props.user.userid;
+		let groupid = group.groupid;
+		this.props.dispatch(deleteGroup(userid,groupid,token));
+	}
+
+	modalEdit = (group) => {
+		this.setState({editgroup:true,activeGroup:{groupid:group.groupid,name:group.name}});
 	}
 
 	addGroup = () => {
@@ -81,9 +96,28 @@ class Group extends React.Component {
 		)
 	}
 
+	submitChangeGroup = async () => {
+		let token = this.props.user.token;
+		let userid = this.props.user.userid;
+		let {groupid,name} = this.state.activeGroup;
+		let res = await this.props.dispatch(updateGroup(userid,groupid,name,token));
+		if(res==="success"){
+			this.setState({editgroup: false});
+		}
+	}
+
+	handleInput = (e) => {
+		this.setState({
+			activeGroup: {
+				groupid: this.state.activeGroup.groupid,
+				name: e.target.value
+			}
+		})
+	}
+
 	render(){
 		return(
-
+			<React.Fragment>
 				<Modal open={this.props.open}>	
 					<Grid container direction="row" alignItems="center" justify="center" style={{width: '100vw',height:'100vh'}}>
 
@@ -111,6 +145,18 @@ class Group extends React.Component {
 					</Grid>
 					</Modal>
 
+					<Modal open={this.state.editgroup}>
+										 <Grid container direction="row" alignItems="center" justify="center" style={{height: '100vh'}}>	
+											<Card>
+											<Grid item xs={12}>
+												<TextField onInput={this.handleInput} value={this.state.activeGroup.name} InputProps={{border:'1px solid white'}} style={{padding: '5px'}}/>
+											</Grid>	
+											</Card>
+											<Button onClick={()=>this.submitChangeGroup()} variant="contained" color="secondary">OK</Button>
+										</Grid>
+										</Modal>
+					</React.Fragment>
+
 			)
 	}
 }
@@ -118,7 +164,7 @@ class Group extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		user: state.user.user,
-		bygroup: state.gcontact.bygroup
+		groups: state.group.groups
 	}
 }
 

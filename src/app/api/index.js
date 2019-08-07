@@ -1,11 +1,11 @@
 const API = "http://localhost:1234/api";
+const CONTACT = `${API}/contact`;
+const GROUP = `${API}/groups`;
+
+exports.GROUP = GROUP;
+exports.CONTACT = CONTACT;
+exports.GET_CONTACT = `${CONTACT}/get`;
+exports.GETBY_GROUP = `${GROUP}/contact`;
+
 exports.REGISTER = `${API}/signup`;
 exports.LOGIN = `${API}/signin`;
-exports.UPDATE_CONTACT = `${API}/updatecontact`;
-exports.ADD_CONTACT = `${API}/addcontact`;
-exports.GET_CONTACT = `${API}/getcontacts`;
-exports.SEARCH_CONTACT = `${API}/searchcontact`;
-exports.DELETE_CONTACT = `${API}/deletecontact`;
-exports.GET_GROUP = `${API}/groups`;
-exports.ADD_GROUP = `${API}/groups/add`;
-exports.GETBY_GROUP = `${API}/groups/contact`;

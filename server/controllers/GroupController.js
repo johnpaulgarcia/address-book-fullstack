@@ -64,3 +64,22 @@ exports.getByGroup = (req,res,next) => {
 			res.status(500).end();
 		})
 }
+
+exports.deleteGroup = (req,res,next) => {
+	let db = req.app.get('db');
+	let {groupid} = req.params;
+	db.groups.destroy({groupid}).then(result=>res.status(200).send(result)).catch((err)=>{
+		console.error(err);
+		res.status(500).end();
+	})
+}
+
+exports.updateGroup = (req,res,next) => {
+	let db = req.app.get('db');
+	let {groupid,name} = req.body;
+	console.log(groupid,name);
+	db.groups.update({groupid:groupid},{name:name}).then(result=>res.status(200).send(result)).catch(err=>{
+		console.error(err);
+		res.status(500).end();
+	})
+}

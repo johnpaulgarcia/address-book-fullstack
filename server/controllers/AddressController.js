@@ -87,7 +87,7 @@ exports.updateContact = (req,res,next) => {
 
 exports.deleteContact = (req,res,next) => {
 	let db = req.app.get('db');
-	let {contactid} = req.body;
+	let {contactid} = req.params;
 	db.address.destroy({contactid})
 		.then(response=>{
 			db.contact.destroy({contactid})

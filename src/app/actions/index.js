@@ -1,5 +1,12 @@
 import axios from 'axios';
-import {REGISTER,LOGIN,ADD_CONTACT,GET_CONTACT,UPDATE_CONTACT,DELETE_CONTACT,SEARCH_CONTACT,GET_GROUP,ADD_GROUP,GETBY_GROUP} from '../api';
+import {
+		 REGISTER,
+		 LOGIN,
+		 GROUP,
+		 CONTACT,
+		 GET_CONTACT,
+		 GETBY_GROUP
+		} from '../api';
 import {USER_AUTH,USER_LOGOUT,AUTH_FAILED,CREATE_MODAL,CONTACT_UPDATED,GROUP_UPDATED,BY_GROUP} from '../constants';
 export const signup = (user,password) => {
 		return async function(dispatch){
@@ -41,7 +48,7 @@ export const login = (user,password) => {
 
 export const addContact = (data,token) => {
 	return async function(dispatch){
-		return await axios.post(ADD_CONTACT,{...data},{headers: {"Authorization": `Bearer ${token}`}},{timeout: 1000})
+		return await axios.post(CONTACT,{...data},{headers: {"Authorization": `Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getContact(data.userid,token));
 				dispatch(getByGroup(data.userid,token));
@@ -72,7 +79,7 @@ export const getContact = (userid,token,sort) => {
 
 export const searchContact = (userid,token,q) => {
 	return async function(dispatch){
-		return await axios.get(`${SEARCH_CONTACT}/${userid}?q=${q}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.get(`${CONTACT}/${userid}?q=${q}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch({
 					type: CONTACT_UPDATED,
@@ -87,7 +94,7 @@ export const searchContact = (userid,token,q) => {
 
 export const updateContact = (data,token) => {
 	return async function(dispatch){
-		return await axios.patch(UPDATE_CONTACT,data,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.patch(CONTACT,data,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getContact(data.userid,token));
 				dispatch(getByGroup(data.userid,token));
@@ -115,7 +122,7 @@ export const getByGroup = (userid,token) =>{
 
 export const deleteContact = (contactid,token,userid) => {
 	return async function(dispatch){
-		return await axios.post(DELETE_CONTACT,{contactid},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.delete(`${CONTACT}/${contactid}`,{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				dispatch(getContact(userid,token));
 				dispatch(getByGroup(userid,token));
@@ -130,7 +137,7 @@ export const deleteContact = (contactid,token,userid) => {
 
 export const getGroup = (userid,token) => {
 	return async function(dispatch){
-		return await axios.get(`${GET_GROUP}/${userid}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.get(`${GROUP}/${userid}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
 				console.log("Groups",response.data);
 				dispatch({
@@ -147,15 +154,40 @@ export const getGroup = (userid,token) => {
 
 export const addGroup = (userid,name,token) => {
 	return async function(dispatch){
-		return await axios.post(ADD_GROUP,{userid,name},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
+		return await axios.post(GROUP,{userid,name},{headers: {"Authorization":`Bearer ${token}`}},{timeout: 1000})
 			.then(response=>{
-				dispatch(getGroup());
+				dispatch(getGroup(userid,token));
 				dispatch(getByGroup(userid,token));
 				return "Group Added"
 			})
 			.catch(err=>{
 				console.log(err);
 				return "Failed to Add"
+			})
+	}
+}
+
+export const deleteGroup = (userid,groupid,token) => {
+	return async function(dispatch){
+		return await axios.delete(`${GROUP}/${groupid}`,{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch(getGroup(userid,token));
+				dispatch(getByGroup(userid,token));
+			}).catch(err=>{
+				console.log(err.message);
+			})
+	}
+}
+
+export const updateGroup = (userid,groupid,name,token) => {
+	return async function(dispatch){
+		return await axios.patch(GROUP,{groupid,name},{headers:{"Authorization":`Bearer ${token}`}},{timeout: 1000})
+			.then(response=>{
+				dispatch(getGroup(userid,token));
+				dispatch(getByGroup(userid,token));
+				return "success";
+			}).catch(err=>{
+				console.log(err.message);
 			})
 	}
 }
