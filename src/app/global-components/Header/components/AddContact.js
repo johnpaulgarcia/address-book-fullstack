@@ -28,7 +28,7 @@ import {
 	} from '../../../actions';
 import {
 
-		Check,Clear
+		Check,Clear,Edit,Close
 
 	} from '@material-ui/icons';
 
@@ -51,7 +51,8 @@ class AddContact extends React.Component{
 			once: false,
 			confirm: false,
 			groupid: undefined,
-			title:"Add Contact"
+			title:"Add Contact",
+			allow: false
 		}
 		this.state = this.originalState;
 	}
@@ -187,6 +188,11 @@ class AddContact extends React.Component{
 						<Card>
 						<CardHeader title={this.state.title} subheader="Save your contacts."/>
 						<form onSubmit={this.submit} style={{width: '100%',backgroundColor: '#fff'}}>
+								{this.props.edit && (!this.state.allow ? <Button onClick={()=>this.setState({allow: true})}><Edit />Edit</Button>
+																	: 
+								
+																	<Button onClick={()=>this.setState({allow: false})}><Close />Cancel Editting</Button>)
+								}
 						         <Grid container spacing={3} style={{padding: '10px'}}>
 						         	<Grid item xs={12} sm={6}>
 						         		 <TextField   
@@ -194,6 +200,7 @@ class AddContact extends React.Component{
 								            onInput={this.handleInput}
 								            id="firstname"
 								            label="First Name"
+								            disabled={this.props.edit && !this.state.allow}
 								            name="firstname"
 								            autoComplete="firstname"
 								            value={firstname}
@@ -208,6 +215,7 @@ class AddContact extends React.Component{
 								            onInput={this.handleInput}
 								            id="lastname"
 								            label="Last Name"
+								            disabled={this.props.edit && !this.state.allow}
 								            name="lastname"
 								            autoComplete="lastname"
 								            value={lastname}
@@ -220,6 +228,7 @@ class AddContact extends React.Component{
 								            fullWidth
 								            onInput={this.handleInput}
 								            id="email"
+								            disabled={this.props.edit && !this.state.allow}
 								            label="Email Address"
 								            name="email"
 								            type="email"
@@ -232,6 +241,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="work_phone"
 								            label="Work Phone"
 								            name="work_phone"
@@ -244,6 +254,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="mobile_phone"
 								            label="Mobile Phone"
 								            name="mobile_phone"
@@ -256,6 +267,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="home_phone"
 								            label="Home Phone"
 								            name="home_phone"
@@ -268,6 +280,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="city"
 								            label="City"
 								            name="city"
@@ -281,6 +294,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="state"
 								            label="State/Province"
 								            name="state"
@@ -293,6 +307,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="country"
 								            label="COUNTRY"
 								            name="country"
@@ -305,6 +320,7 @@ class AddContact extends React.Component{
 						         		 <TextField
 								            fullWidth
 								            onInput={this.handleInput}
+								            disabled={this.props.edit && !this.state.allow}
 								            id="postcode"
 								            label="POSTAL"
 								            name="postcode"
@@ -317,6 +333,7 @@ class AddContact extends React.Component{
 										<InputLabel htmlFor="group">Contact Group</InputLabel>
 										<Select 
 											style={{width: '100%'}}
+											disabled={this.props.edit && !this.state.allow}
 											input={<Input id="group" />}
 											onChange={this.changeGroup('groupid')}
 											value={this.state.groupid}
@@ -334,7 +351,7 @@ class AddContact extends React.Component{
 						         }
 
 						         	<Grid item xs={12} sm={6}>
-						         		<Button type="submit" style={{width: '100%'}} variant="contained" color="primary">{this.props.edit ? "UPDATE" : "CREATE"}</Button>
+						         		<Button disabled={this.props.edit && !this.state.allow} type="submit" style={{width: '100%'}} variant="contained" color="primary">{this.props.edit ? "UPDATE" : "CREATE"}</Button>
 						         	</Grid>
 
 						         	<Grid item xs={12} sm={6}>
@@ -342,7 +359,7 @@ class AddContact extends React.Component{
 						         	</Grid>
 								{this.props.edit &&
 						         	<Grid item xs={12} sm={12}>
-						         		<Button onClick={()=>this.confirmDelete()} style={{width: '100%'}} variant="contained" color="secondary">DELETE</Button>
+						         		<Button disabled={this.props.edit && !this.state.allow} onClick={()=>this.confirmDelete()} style={{width: '100%'}} variant="contained" color="secondary">DELETE</Button>
 						         	</Grid>
 						         }
 

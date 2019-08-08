@@ -1,7 +1,7 @@
    import React from 'react';
 import styles from './styles.js';
 import {withStyles} from '@material-ui/styles';
-import {Grid,Typography,Button,TextField,Hidden,Modal} from '@material-ui/core';
+import {Grid,Typography,Button,TextField,Hidden,Modal,Tooltip} from '@material-ui/core';
 import {PersonAdd,ExitToApp,GroupAdd,Menu,Search} from '@material-ui/icons';
 import {logout,create,searchContact,getGroup,getByGroup} from '../../actions';
 import {connect} from 'react-redux';
@@ -72,18 +72,23 @@ class Header extends React.Component {
 						<Hidden smUp><Button onClick={()=>this.setState({mobsearch:true})} style={styles.item}>
 							<Search style={{color: '#fff'}}/>
 						</Button></Hidden>
-
+						<Tooltip title="Add Group">
 						<Button onClick={()=>this.setState({groupmodal:true})} style={styles.item}>
 							<GroupAdd style={{color: '#fff'}}/>
 						</Button>
+						</Tooltip>
 
+						<Tooltip title="Add Contact">
 						<Button onClick={()=>this.createModal()} style={styles.item}>
 							<PersonAdd style={{color: '#fff'}}/>
 						</Button>
+						</Tooltip>
 
+						<Tooltip title="Sign out">
 						<Button onClick={()=>this.logout()} style={styles.item}>
 							<ExitToApp style={{color: '#fff'}}/>
 						</Button>
+						</Tooltip>
 
 					</Grid>}
 
