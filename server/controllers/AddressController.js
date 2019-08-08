@@ -88,12 +88,9 @@ exports.updateContact = (req,res,next) => {
 exports.deleteContact = (req,res,next) => {
 	let db = req.app.get('db');
 	let {contactid} = req.params;
-	db.address.destroy({contactid})
+	db.contact.destroy({contactid})
 		.then(response=>{
-			db.contact.destroy({contactid})
-				.then(response=>{
-					res.status(201).send("Deleted.");
-				})
+			res.status(200).end();
 		})
 		.catch((err)=>{
 		console.error(err);

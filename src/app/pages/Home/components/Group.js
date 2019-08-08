@@ -9,13 +9,13 @@ class Group extends React.Component {
 
 	render(){
 		return(
-				<Grid container direction="row" spacing={3} style={{height: '80vh',padding: '10px'}}>
+				<Grid container direction="row" spacing={1} style={{height: 'fit-content',padding: '10px'}}>
 						{
 							this.props.bygroup ? Object.keys(this.props.bygroup).map(key=>{
 								return(
 
-										<Grid item xs={11} sm={4} lg={2}>
-											<Card>
+										<Grid item xs={12} sm={4} lg={2}>
+											<Card style={{height: 'fit-content'}}>
 												<CardHeader
 												title={key}
 								 				style={{backgroundColor: 'teal',color: '#fff'}}
