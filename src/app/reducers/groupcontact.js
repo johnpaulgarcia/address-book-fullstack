@@ -12,7 +12,6 @@ module.exports = (state=defaultState,action) => {
 				let newg = groupBy(bg,(grp)=>{
 					return grp.name
 				})
-				console.log(JSON.stringify(newg))
 				return {
 					bygroup: newg
 				}

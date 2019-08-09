@@ -57,7 +57,6 @@ exports.getContacts = (req,res,next) => {
 		}
 	}
 	).then(response=>{
-		console.log(JSON.stringify(response));
 		res.send(...response);
 	})
 	.catch(err=>{
