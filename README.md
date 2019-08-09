@@ -1,9 +1,10 @@
 ##Instructions
-1. Clone, navigate inside the address-book-fullstack folder and run ### npm install
+1. Clone, navigate inside the address-book-fullstack folder and run 
+	### npm install
 2. Start Postgres database instance:
 	### npm run db
 3. Open Postgres database and create a database 'addressbookdb'
-	#Default Password: 'addressbookdb'
+##Default Password: 'addressbookdb'
 ##Open another terminal, make sure npm run db is running.
 4. Run migrations to insert tables
 	### npm run migrate up
