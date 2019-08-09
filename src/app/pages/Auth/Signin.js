@@ -33,9 +33,15 @@ class Signin extends React.Component {
 		}
 		register = async () => {
 			let {username,password} = this.state;
-			let res = await this.props.dispatch(signup(username,password));
-			if(res!=="success"){
-				this.setState({message:res})
+			if(username && password){
+				let res = await this.props.dispatch(signup(username,password));
+				if(res!=="success"){
+					this.setState({message:res})
+				}
+			}
+			else{
+				if(!username)this.setState({usernameErr: true})
+				if(!password)this.setState({passwordErr: true})
 			}
 		}
 
