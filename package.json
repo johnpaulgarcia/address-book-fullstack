@@ -26,7 +26,7 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "setup":"concurrently \"npm run db\" \"npm run migrate up\" \"npm run api\" \"npm start\"",
+    "setup":"concurrently \"npm run migrate up\" \"npm run api\" \"npm start\"",
     "app":"concurrently \"npm run db\" \"npm run api\" \"npm start\"",
     "api": "nodemon ./server/server.js",
     "db": "cd server && sudo docker-compose up",
